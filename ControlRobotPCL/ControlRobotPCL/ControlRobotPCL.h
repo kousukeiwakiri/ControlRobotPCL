@@ -1,5 +1,5 @@
 
-// Send.h : PROJECT_NAME アプリケーションのメイン ヘッダー ファイルです。
+// ControlRobotPCL.h : PROJECT_NAME アプリケーションのメイン ヘッダー ファイルです。
 //
 
 #pragma once
@@ -11,14 +11,14 @@
 #include "resource.h"		// メイン シンボル
 
 
-// CSendApp:
-// このクラスの実装については、Send.cpp を参照してください。
+// CControlRobotPCLApp:
+// このクラスの実装については、ControlRobotPCL.cpp を参照してください。
 //
 
-class CSendApp : public CWinApp
+class CControlRobotPCLApp : public CWinApp
 {
 public:
-	CSendApp();
+	CControlRobotPCLApp();
 
 // オーバーライド
 public:
@@ -29,4 +29,4 @@ public:
 	DECLARE_MESSAGE_MAP()
 };
 
-extern CSendApp theApp;
+extern CControlRobotPCLApp theApp;

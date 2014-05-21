@@ -1,26 +1,26 @@
 
-// RobotControl.cpp : アプリケーションのクラス動作を定義します。
+// ControlRobotPCL.cpp : アプリケーションのクラス動作を定義します。
 //
 
 #include "stdafx.h"
-#include "RobotControl.h"
-#include "RobotControlDlg.h"
+#include "ControlRobotPCL.h"
+#include "ControlRobotPCLDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
 
-// CRobotControlApp
+// CControlRobotPCLApp
 
-BEGIN_MESSAGE_MAP(CRobotControlApp, CWinApp)
+BEGIN_MESSAGE_MAP(CControlRobotPCLApp, CWinApp)
 	ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
 END_MESSAGE_MAP()
 
 
-// CRobotControlApp コンストラクション
+// CControlRobotPCLApp コンストラクション
 
-CRobotControlApp::CRobotControlApp()
+CControlRobotPCLApp::CControlRobotPCLApp()
 {
 	// 再起動マネージャーをサポートします
 	m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_RESTART;
@@ -30,14 +30,14 @@ CRobotControlApp::CRobotControlApp()
 }
 
 
-// 唯一の CRobotControlApp オブジェクトです。
+// 唯一の CControlRobotPCLApp オブジェクトです。
 
-CRobotControlApp theApp;
+CControlRobotPCLApp theApp;
 
 
-// CRobotControlApp 初期化
+// CControlRobotPCLApp 初期化
 
-BOOL CRobotControlApp::InitInstance()
+BOOL CControlRobotPCLApp::InitInstance()
 {
 	// アプリケーション マニフェストが visual スタイルを有効にするために、
 	// ComCtl32.dll Version 6 以降の使用を指定する場合は、
@@ -50,12 +50,6 @@ BOOL CRobotControlApp::InitInstance()
 	InitCommonControlsEx(&InitCtrls);
 
 	CWinApp::InitInstance();
-
-	if (!AfxSocketInit())
-	{
-		AfxMessageBox(IDP_SOCKETS_INIT_FAILED);
-		return FALSE;
-	}
 
 
 	AfxEnableControlContainer();
@@ -73,7 +67,7 @@ BOOL CRobotControlApp::InitInstance()
 	// この文字列を変更してください。
 	SetRegistryKey(_T("アプリケーション ウィザードで生成されたローカル アプリケーション"));
 
-	CRobotControlDlg dlg;
+	CControlRobotPCLDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
 	if (nResponse == IDOK)
@@ -92,12 +86,6 @@ BOOL CRobotControlApp::InitInstance()
 	{
 		delete pShellManager;
 	}
-
-	// グローバルで扱いたいものをここで初期化
-	h_count=0;
-	int gamepad_right=CENTER_GAMEPAD_NUMBER;	//0～100
-	int gamepad_left=CENTER_GAMEPAD_NUMBER;	//0～100
-	int gamepad_button=0;
 
 	// ダイアログは閉じられました。アプリケーションのメッセージ ポンプを開始しないで
 	//  アプリケーションを終了するために FALSE を返してください。

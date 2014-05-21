@@ -1,5 +1,5 @@
 
-// stdafx.cpp : 標準インクルード Send.pch のみを
+// stdafx.cpp : 標準インクルード ControlRobotPCL.pch のみを
 // 含むソース ファイルは、プリコンパイル済みヘッダーになります。
 // stdafx.obj にはプリコンパイルされた型情報が含まれます。
 

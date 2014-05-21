@@ -1,30 +1,30 @@
 
-// SendDlg.h : ヘッダー ファイル
+// ControlRobotPCLDlg.h : ヘッダー ファイル
 //
-#include "UDPSend.h"
 
 #pragma once
 
-#define UDP_SEND_ID 10
-#define UDP_SEND_TIMER 20
-// CSendDlg ダイアログ
-class CSendDlg : public CDialogEx
+#define ROBOT_TIMER_ID 10
+#define ROBOT_TIMER_MS 100
+#define BRAIN_TIMER_ID 20
+#define BRAIN_TIMER_MS 30
+
+// CControlRobotPCLDlg ダイアログ
+class CControlRobotPCLDlg : public CDialogEx
 {
 // コンストラクション
 public:
-	CSendDlg(CWnd* pParent = NULL);	// 標準コンストラクター
+	CControlRobotPCLDlg(CWnd* pParent = NULL);	// 標準コンストラクター
 
 // ダイアログ データ
-	enum { IDD = IDD_SEND_DIALOG };
+	enum { IDD = IDD_CONTROLROBOTPCL_DIALOG };
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV サポート
 
-
 // 実装
 protected:
 	HICON m_hIcon;
-	CUDPSend udpSend;
 
 	// 生成された、メッセージ割り当て関数
 	virtual BOOL OnInitDialog();
@@ -32,8 +32,12 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+
+	
+	//マルチスレッド用
+	static UINT ThreadProcStub(LPVOID pParam);
+	UINT TheadProc();
+
 public:
-	afx_msg void OnBnClickedButton1();
-	bool udp_send_flag;
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 };

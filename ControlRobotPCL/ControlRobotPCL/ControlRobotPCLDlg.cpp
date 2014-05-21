@@ -1,10 +1,10 @@
 
-// SendDlg.cpp : 実装ファイル
+// ControlRobotPCLDlg.cpp : 実装ファイル
 //
 
 #include "stdafx.h"
-#include "Send.h"
-#include "SendDlg.h"
+#include "ControlRobotPCL.h"
+#include "ControlRobotPCLDlg.h"
 #include "afxdialogex.h"
 
 #ifdef _DEBUG
@@ -19,13 +19,13 @@ class CAboutDlg : public CDialogEx
 public:
 	CAboutDlg();
 
-	// ダイアログ データ
+// ダイアログ データ
 	enum { IDD = IDD_ABOUTBOX };
 
-protected:
+	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 
-	// 実装
+// 実装
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -43,34 +43,33 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CSendDlg ダイアログ
+// CControlRobotPCLDlg ダイアログ
 
 
 
 
-CSendDlg::CSendDlg(CWnd* pParent /*=NULL*/)
-	: CDialogEx(CSendDlg::IDD, pParent)
+CControlRobotPCLDlg::CControlRobotPCLDlg(CWnd* pParent /*=NULL*/)
+	: CDialogEx(CControlRobotPCLDlg::IDD, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
-void CSendDlg::DoDataExchange(CDataExchange* pDX)
+void CControlRobotPCLDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 }
 
-BEGIN_MESSAGE_MAP(CSendDlg, CDialogEx)
+BEGIN_MESSAGE_MAP(CControlRobotPCLDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	ON_BN_CLICKED(IDC_BUTTON1, &CSendDlg::OnBnClickedButton1)
 	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 
-// CSendDlg メッセージ ハンドラー
+// CControlRobotPCLDlg メッセージ ハンドラー
 
-BOOL CSendDlg::OnInitDialog()
+BOOL CControlRobotPCLDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
@@ -100,13 +99,14 @@ BOOL CSendDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 小さいアイコンの設定
 
 	// TODO: 初期化をここに追加します。
-	SetTimer(UDP_SEND_ID,UDP_SEND_TIMER,NULL);
-	udp_send_flag=false;
-
+	AfxBeginThread(ThreadProcStub,(LPVOID)this,THREAD_PRIORITY_IDLE);
+	SetTimer(ROBOT_TIMER_ID,ROBOT_TIMER_MS,NULL);
+	SetTimer(BRAIN_TIMER_ID,BRAIN_TIMER_MS,NULL);
+	AllocConsole();					//コンソールウィンドウ出力設定
 	return TRUE;  // フォーカスをコントロールに設定した場合を除き、TRUE を返します。
 }
 
-void CSendDlg::OnSysCommand(UINT nID, LPARAM lParam)
+void CControlRobotPCLDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
 	if ((nID & 0xFFF0) == IDM_ABOUTBOX)
 	{
@@ -123,7 +123,7 @@ void CSendDlg::OnSysCommand(UINT nID, LPARAM lParam)
 //  下のコードが必要です。ドキュメント/ビュー モデルを使う MFC アプリケーションの場合、
 //  これは、Framework によって自動的に設定されます。
 
-void CSendDlg::OnPaint()
+void CControlRobotPCLDlg::OnPaint()
 {
 	if (IsIconic())
 	{
@@ -150,29 +150,34 @@ void CSendDlg::OnPaint()
 
 // ユーザーが最小化したウィンドウをドラッグしているときに表示するカーソルを取得するために、
 //  システムがこの関数を呼び出します。
-HCURSOR CSendDlg::OnQueryDragIcon()
+HCURSOR CControlRobotPCLDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
 
-//UPD送信ボタン
-void CSendDlg::OnBnClickedButton1()
+
+void CControlRobotPCLDlg::OnTimer(UINT_PTR nIDEvent)
 {
-	//udpSend.send();
-	udp_send_flag=true;
+	// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
+
+	CDialogEx::OnTimer(nIDEvent);
 }
 
 
-void CSendDlg::OnTimer(UINT_PTR nIDEvent)
+//malti thread
+UINT CControlRobotPCLDlg::ThreadProcStub(LPVOID pParam)
 {
-	switch(nIDEvent){
-	case UDP_SEND_ID:
-		if(udp_send_flag==true)udpSend.send();
-		break;
-	default:
-		break;
+	CControlRobotPCLDlg* pDlg = (CControlRobotPCLDlg*) pParam;
+	if(pDlg==NULL){
+		return 0;
 	}
+	return pDlg->TheadProc();
+}
 
-	CDialogEx::OnTimer(nIDEvent);
+UINT CControlRobotPCLDlg::TheadProc(){
+	while(1){
+		//コントローラ
+	}
+	return 0;
 }

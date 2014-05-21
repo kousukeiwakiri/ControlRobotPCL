@@ -1,21 +1,21 @@
 ================================================================================
-MICROSOFT FOUNDATION CLASS ライブラリ: RobotControl プロジェクトの概要
+MICROSOFT FOUNDATION CLASS ライブラリ: ControlRobotPCL プロジェクトの概要
 ===============================================================================
 
-アプリケーション ウィザードが作成した RobotControl には Microsoft 
+アプリケーション ウィザードが作成した ControlRobotPCL には Microsoft 
 Foundation Class の基本的な使い方が示されています。アプリケーション作成のひな型
 としてお使いください。
 
-このファイルには RobotControl アプリケーションを構成している各ファイ
+このファイルには ControlRobotPCL アプリケーションを構成している各ファイ
 ルの概要説明が含まれます。
 
-RobotControl.vcxproj
+ControlRobotPCL.vcxproj
    これはアプリケーション ウィザードで生成された VC++ プロジェクトのメイン プ
    ロジェクト ファイルです。ファイルが生成された Visual C++ のバージョン情報が
    含まれています。また、アプリケーション ウィザードで選択したプラットフォー
    ム、構成およびプロジェクト機能に関する情報も含まれています。
 
-RobotControl.vcxproj.filters
+ControlRobotPCL.vcxproj.filters
    これは、アプリケーション ウィザードで生成された VC++ プロジェクトの
    フィルター ファイルです。
    このファイルには、プロジェクト内のファイルとフィルターとの間の関連付けに関する
@@ -23,27 +23,27 @@ RobotControl.vcxproj.filters
    グループ化を示すために IDE で使用されます (たとえば、".cpp" ファイルは "ソース 
    ファイル" フィルターに関連付けられています)。
 
-RobotControl.h
+ControlRobotPCL.h
    これはアプリケーションのメイン ヘッダー ファイルです。このファイルには、
    Resource.h を含む、その他のプロジェクト固有のヘッダーが含まれていて、
-   CRobotControlApp アプリケーション クラスを宣言します。
+   CControlRobotPCLApp アプリケーション クラスを宣言します。
 
-RobotControl.cpp
-   これは、アプリケーション クラス CRobotControlApp を含むメイン アプリケー
+ControlRobotPCL.cpp
+   これは、アプリケーション クラス CControlRobotPCLApp を含むメイン アプリケー
    ション ソース ファイルです。
 
-RobotControl.rc
+ControlRobotPCL.rc
    これは、プログラムが使用する Microsoft Windows のリソースの一覧ファイルで
    す。このファイルには RES サブディレクトリに保存されているアイコン、ビットマ
    ップ、カーソルが含まれています。このファイルは、Microsoft Visual C++ で直接
    編集することができます。プロジェクト リソースは 1041 にあります。
 
-res\RobotControl.ico
+res\ControlRobotPCL.ico
    これは、アプリケーションのアイコンとして使用されるアイコンファイルです。この
-   アイコンはメイン リソース ファイル RobotControl.rc に含まれていま
+   アイコンはメイン リソース ファイル ControlRobotPCL.rc に含まれていま
    す。
 
-res\RobotControl.rc2
+res\ControlRobotPCL.rc2
    このファイルは Microsoft Visual C++ を使用しないで編集されたリソースを含んで
    います。リソース エディタで編集できないリソースはすべてこのファイルに入れて
    ください。
@@ -53,10 +53,10 @@ res\RobotControl.rc2
 
 アプリケーション ウィザードは 1 つのダイアログ クラスを作成します:
 
-RobotControlDlg.h, RobotControlDlg.cpp - ダイアログ
-   これらのファイルは CRobotControlDlg クラスを含みます。このクラスはアプ
+ControlRobotPCLDlg.h, ControlRobotPCLDlg.cpp - ダイアログ
+   これらのファイルは CControlRobotPCLDlg クラスを含みます。このクラスはアプ
    リケーションのメイン ダイアログの動作を定義します。ダイアログ テンプレートは
-   Microsoft Visual C++ で編集可能な RobotControl.rc に含まれます。
+   Microsoft Visual C++ で編集可能な ControlRobotPCL.rc に含まれます。
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -66,9 +66,10 @@ RobotControlDlg.h, RobotControlDlg.cpp - ダイアログ
 ActiveX コントロール
    アプリケーションは ActiveX コントロールの使用に関するサポートを含みます。
 
-Windows ソケット
-   アプリケーションは TCP/IP ネットワーク経由の通信を確立するためのサポートを
-   含みます。
+印刷と印刷プレビューのサポート
+   アプリケーション ウィザードは、 MFC ライブラリから CView クラスのメンバ関数
+   を呼び出すことによって、印刷、印刷の設定、および印刷プレビュー コマンドを処
+   理するコードを生成しました。
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -76,14 +77,14 @@ Windows ソケット
 
 StdAfx.h, StdAfx.cpp
    これらのファイルは、既にコンパイルされたヘッダー ファイル (PCH) 
-   RobotControl.pch や既にコンパイルされた型のファイル StdAfx.obj を
+   ControlRobotPCL.pch や既にコンパイルされた型のファイル StdAfx.obj を
    ビルドするために使用されます。
 
 Resource.h
    これは新規リソース ID を定義する標準ヘッダー ファイルです。Microsoft 
    Visual C++ はこのファイルの読み取りと更新を行います。
 
-RobotControl.manifest
+ControlRobotPCL.manifest
    アプリケーション マニフェスト ファイルは Windows XP で、Side-by-Side アセン
    ブリの特定のバージョンに関するアプリケーションの依存関係を説明するために使用
    されます。ローダーはこの情報を使用して、アセンブリ キャッシュから適切なアセ
