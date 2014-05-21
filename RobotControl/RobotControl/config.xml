@@ -1,0 +1,24 @@
+<OpenNI>
+	<Licenses></Licenses>
+	<Log writeToConsole="true" writeToFile="false">
+		<LogLevel value="2" />
+		<Masks>
+			<Mask name="ALL" on="true" />
+		</Masks>
+		<Dumps></Dumps>
+	</Log>
+	<ProductionNodes>
+		<Node type="Image" name="Image1">
+			<Configuration>
+				<MapOutputMode xRes="640" yRes="480" FPS="30" />
+			</Configuration>
+		</Node>
+		<Node type="Depth" name="Depth1">
+			<Configuration>
+				<MapOutputMode xRes="640" yRes="480" FPS="30" />
+			</Configuration>
+		</Node>
+		<Node type="User" />
+		<Node type="Gesture" />
+	</ProductionNodes>
+</OpenNI>
