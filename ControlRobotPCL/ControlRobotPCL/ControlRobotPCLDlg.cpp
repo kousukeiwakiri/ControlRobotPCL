@@ -101,7 +101,7 @@ BOOL CControlRobotPCLDlg::OnInitDialog()
 	// TODO: 初期化をここに追加します。
 	AfxBeginThread(ThreadProcStub,(LPVOID)this,THREAD_PRIORITY_IDLE);
 	SetTimer(ROBOT_TIMER_ID,ROBOT_TIMER_MS,NULL);
-	SetTimer(BRAIN_TIMER_ID,BRAIN_TIMER_MS,NULL);
+	SetTimer(KINECT_TIMER_ID,KINECT_TIMER_MS,NULL);
 	AllocConsole();					//コンソールウィンドウ出力設定
 	return TRUE;  // フォーカスをコントロールに設定した場合を除き、TRUE を返します。
 }
@@ -156,10 +156,22 @@ HCURSOR CControlRobotPCLDlg::OnQueryDragIcon()
 }
 
 
-
+//タイマー
 void CControlRobotPCLDlg::OnTimer(UINT_PTR nIDEvent)
 {
-	// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
+		switch(nIDEvent)
+	{
+	case ROBOT_TIMER_ID:
+		//ロボットの呼び出し
+		break;
+	case KINECT_TIMER_ID:
+		//kinectの呼び出し
+		pointCloud.Run();
+		break;
+	default:
+		break;
+	}
+
 
 	CDialogEx::OnTimer(nIDEvent);
 }

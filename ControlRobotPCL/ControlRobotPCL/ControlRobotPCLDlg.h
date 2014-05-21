@@ -4,10 +4,11 @@
 
 #pragma once
 
+#include "PointCloud.h"
 #define ROBOT_TIMER_ID 10
 #define ROBOT_TIMER_MS 100
-#define BRAIN_TIMER_ID 20
-#define BRAIN_TIMER_MS 30
+#define KINECT_TIMER_ID 20
+#define KINECT_TIMER_MS 30
 
 // CControlRobotPCLDlg ダイアログ
 class CControlRobotPCLDlg : public CDialogEx
@@ -37,7 +38,7 @@ protected:
 	//マルチスレッド用
 	static UINT ThreadProcStub(LPVOID pParam);
 	UINT TheadProc();
-
+	CPointCloud pointCloud;
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 };
