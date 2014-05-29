@@ -64,6 +64,8 @@ BEGIN_MESSAGE_MAP(CControlRobotPCLDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_WM_TIMER()
+	ON_BN_CLICKED(IDC_BUTTON1, &CControlRobotPCLDlg::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_BUTTON2, &CControlRobotPCLDlg::OnBnClickedButton2)
 END_MESSAGE_MAP()
 
 
@@ -101,7 +103,6 @@ BOOL CControlRobotPCLDlg::OnInitDialog()
 	// TODO: 初期化をここに追加します。
 	AfxBeginThread(ThreadProcStub,(LPVOID)this,THREAD_PRIORITY_IDLE);
 	SetTimer(ROBOT_TIMER_ID,ROBOT_TIMER_MS,NULL);
-	SetTimer(KINECT_TIMER_ID,KINECT_TIMER_MS,NULL);
 	AllocConsole();					//コンソールウィンドウ出力設定
 	return TRUE;  // フォーカスをコントロールに設定した場合を除き、TRUE を返します。
 }
@@ -162,11 +163,10 @@ void CControlRobotPCLDlg::OnTimer(UINT_PTR nIDEvent)
 		switch(nIDEvent)
 	{
 	case ROBOT_TIMER_ID:
-		//ロボットの呼び出し
-		break;
-	case KINECT_TIMER_ID:
-		//kinectの呼び出し
-		pointCloud.Run();
+		//コントローラの呼び出し
+
+		//ロボットの状態決定
+		RobotState(gamePadData.button);
 		break;
 	default:
 		break;
@@ -176,6 +176,28 @@ void CControlRobotPCLDlg::OnTimer(UINT_PTR nIDEvent)
 	CDialogEx::OnTimer(nIDEvent);
 }
 
+
+//ロボットの状態
+void CControlRobotPCLDlg::RobotState(int state_id)
+{
+	switch(state_id){
+	case 6:
+		//robot.setDeltaHeadin(90);
+		break;
+	case 7:
+		break;
+	case 8:
+		break;
+	case 9:
+		break;
+	case 10:
+		break;
+	default:
+		break;
+	}
+
+
+}
 
 //malti thread
 UINT CControlRobotPCLDlg::ThreadProcStub(LPVOID pParam)
@@ -189,7 +211,21 @@ UINT CControlRobotPCLDlg::ThreadProcStub(LPVOID pParam)
 
 UINT CControlRobotPCLDlg::TheadProc(){
 	while(1){
-		//コントローラ
+		//移動中も描画するため
+		pointCloud.Run();
 	}
 	return 0;
+}
+
+
+
+void CControlRobotPCLDlg::OnBnClickedButton1()
+{
+	// TODO: ここにコントロール通知ハンドラー コードを追加します。
+}
+
+
+void CControlRobotPCLDlg::OnBnClickedButton2()
+{
+	// TODO: ここにコントロール通知ハンドラー コードを追加します。
 }

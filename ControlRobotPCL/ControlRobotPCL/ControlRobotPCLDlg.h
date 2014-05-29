@@ -5,10 +5,11 @@
 #pragma once
 
 #include "PointCloud.h"
+#include "GamePadData.h"
+#include "Robot.h"
 #define ROBOT_TIMER_ID 10
 #define ROBOT_TIMER_MS 100
-#define KINECT_TIMER_ID 20
-#define KINECT_TIMER_MS 30
+
 
 // CControlRobotPCLDlg ダイアログ
 class CControlRobotPCLDlg : public CDialogEx
@@ -39,6 +40,13 @@ protected:
 	static UINT ThreadProcStub(LPVOID pParam);
 	UINT TheadProc();
 	CPointCloud pointCloud;
+
+	//ロボットの状態用
+	void RobotState(int state_id);
+	CGamePadData gamePadData;
+
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedButton2();
 };

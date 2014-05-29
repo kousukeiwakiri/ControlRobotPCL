@@ -42,20 +42,20 @@ void CPointCloud::Run()
 	cvCvtColor(camera,camera, CV_BGR2RGB);
 	cvShowImage("image",camera);
 
-
+	
 	char key = cvWaitKey(10);
-	if( key == 's' )
+	/*if( key == 's' )
 	{
 		Save6D(0,0,0);
-	}else if (key == 't')
+	}/*else if (key == 't')
 	{
 		//保存
 		pcl::io::savePCDFileASCII("./PCD/pcd.pcd",*cloud);
-	}
-	if(pcl_viewer_flag == true){
+	}*/
+	/*if(pcl_viewer_flag == true){
 		//ポイントクラウドを表示する
 		viewer->showCloud(cloud);
-	}
+	}*/
 	
 	return;
 }
@@ -78,13 +78,15 @@ void CPointCloud::Save6D(int world_x,int world_y,double world_rad)
 			{
 				double camera_x,camera_y,camera_z;
 				pcl::PointXYZRGB point;
-				camera_x =  PIXEL_RANGE * depthMD(i,j) * (i-(double)(imageMD.XRes())/2);
-				camera_y =  PIXEL_RANGE * depthMD(i,j) * ((double)(imageMD.YRes())/2-j);
-				camera_z =  depthMD(i,j) ;
+				//camera_xはロボットからの視点の距離
+				camera_x =  PIXEL_RANGE * depthMD(i,j) * (i-(double)(imageMD.XRes())/2) + world_x;
+				camera_y =  - PIXEL_RANGE * depthMD(i,j) * ((double)(imageMD.YRes())/2-j);
+				camera_z =  depthMD(i,j) + world_y;
 
-				point.x = camera_x * cos(-world_rad) + camera_z * sin(-world_rad) + world_x;
+				//point.xは世界座標系
+				point.x = camera_x * cos(-world_rad) + camera_z * sin(-world_rad) ;
 				point.y = camera_y;
-				point.z = -camera_x * sin(-world_rad) + camera_z * cos(-world_rad) + world_y;
+				point.z = -camera_x * sin(-world_rad) + camera_z * cos(-world_rad) ;
 
 				//テクスチャ
 				point.b = camera->imageData[camera->widthStep*j+i*camera->nChannels];
@@ -95,11 +97,12 @@ void CPointCloud::Save6D(int world_x,int world_y,double world_rad)
 			}
 		}
 	}
-	if(pcl_viewer_flag == false){
+	if(pcl_viewer_flag == false)
+	{
 		cloud = points;
 		pcl_viewer_flag = true;
 	}else{
 		*cloud += *points;
 	}
-	
+	viewer->showCloud(cloud);
 }
