@@ -11,9 +11,9 @@ public:
 	~CGamePadData(void);
 	void Update();
 	int button;
-private:
 	double left;			//左スティック
 	double right;			//右スティック
+private:
 
 	CGamePad gamePad;
 	void Direction();

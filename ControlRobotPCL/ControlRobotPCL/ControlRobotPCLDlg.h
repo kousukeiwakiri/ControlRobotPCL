@@ -7,6 +7,7 @@
 #include "PointCloud.h"
 #include "GamePadData.h"
 #include "Robot.h"
+
 #define ROBOT_TIMER_ID 10
 #define ROBOT_TIMER_MS 100
 
@@ -44,6 +45,8 @@ protected:
 	//ロボットの状態用
 	void RobotState(int state_id);
 	CGamePadData gamePadData;
+
+	CRobot robot;
 
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);

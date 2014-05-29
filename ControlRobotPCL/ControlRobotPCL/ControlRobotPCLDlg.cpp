@@ -164,7 +164,7 @@ void CControlRobotPCLDlg::OnTimer(UINT_PTR nIDEvent)
 	{
 	case ROBOT_TIMER_ID:
 		//コントローラの呼び出し
-
+		gamePadData.Update();
 		//ロボットの状態決定
 		RobotState(gamePadData.button);
 		break;
@@ -181,8 +181,19 @@ void CControlRobotPCLDlg::OnTimer(UINT_PTR nIDEvent)
 void CControlRobotPCLDlg::RobotState(int state_id)
 {
 	switch(state_id){
+	case 0:
+		//robot.myRobot->setVel(gamePadData.right * 100);
+		//robot.myRobot->setVel2(gamePadData.left * 100, -gamePadData.left * 100);
+		std::cout<<"right:" << gamePadData.right * 100 <<std::endl;
+		std::cout<<"left:" << gamePadData.left * 100 <<std::endl;
+		break;
+	case 5:
+		//robot.myRobot->setDeltaHeading(90);
+		std::cout<<"90°回転" <<std::endl;
+		break;
 	case 6:
-		//robot.setDeltaHeadin(90);
+		//robot.myRobot->setDeltaHeading(-90);
+		std::cout<<"-90°回転" <<std::endl;
 		break;
 	case 7:
 		break;
@@ -195,7 +206,7 @@ void CControlRobotPCLDlg::RobotState(int state_id)
 	default:
 		break;
 	}
-
+	
 
 }
 
@@ -221,11 +232,11 @@ UINT CControlRobotPCLDlg::TheadProc(){
 
 void CControlRobotPCLDlg::OnBnClickedButton1()
 {
-	// TODO: ここにコントロール通知ハンドラー コードを追加します。
+	robot.Init();
 }
 
 
 void CControlRobotPCLDlg::OnBnClickedButton2()
 {
-	// TODO: ここにコントロール通知ハンドラー コードを追加します。
+	robot.Close();
 }
