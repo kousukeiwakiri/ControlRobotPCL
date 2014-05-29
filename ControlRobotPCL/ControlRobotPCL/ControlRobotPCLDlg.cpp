@@ -104,6 +104,7 @@ BOOL CControlRobotPCLDlg::OnInitDialog()
 	AfxBeginThread(ThreadProcStub,(LPVOID)this,THREAD_PRIORITY_IDLE);
 	SetTimer(ROBOT_TIMER_ID,ROBOT_TIMER_MS,NULL);
 	AllocConsole();					//コンソールウィンドウ出力設定
+	freopen("con","w", stdout);
 	return TRUE;  // フォーカスをコントロールに設定した場合を除き、TRUE を返します。
 }
 
@@ -180,6 +181,7 @@ void CControlRobotPCLDlg::OnTimer(UINT_PTR nIDEvent)
 //ロボットの状態
 void CControlRobotPCLDlg::RobotState(int state_id)
 {
+	std::cout<<"ボタン:"<<gamePadData.button<<std::endl;
 	switch(state_id){
 	case 0:
 		//robot.myRobot->setVel(gamePadData.right * 100);
@@ -187,13 +189,20 @@ void CControlRobotPCLDlg::RobotState(int state_id)
 		std::cout<<"right:" << gamePadData.right * 100 <<std::endl;
 		std::cout<<"left:" << gamePadData.left * 100 <<std::endl;
 		break;
+	case 2:
+		robot.myRobot->move(100);
+		break;
+	case 3:
+		robot.myRobot->move(-100);
+		break;
+	case 4:
+		pointCloud.Save6D(robot.myRobot->getX(),robot.myRobot->getY(),robot.myRobot->getTh());
+		break;
 	case 5:
-		//robot.myRobot->setDeltaHeading(90);
-		std::cout<<"90°回転" <<std::endl;
+		robot.myRobot->setDeltaHeading(90);
 		break;
 	case 6:
-		//robot.myRobot->setDeltaHeading(-90);
-		std::cout<<"-90°回転" <<std::endl;
+		robot.myRobot->setDeltaHeading(-90);
 		break;
 	case 7:
 		break;

@@ -21,7 +21,7 @@ public:
 	CPointCloud(void);
 	~CPointCloud(void);
 	void Run(void);
-
+	void Save6D(int world_x,int world_y,double world_rad);
 
 private:
 	xn::Context context;
@@ -40,7 +40,7 @@ private:
 
 	pcl::visualization::CloudViewer *viewer;
 	pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud;
-	void Save6D(int world_x,int world_y,double world_rad);
+	
 	bool pcl_viewer_flag; //cloud‚ª‹ó‚Ì‚Æ‚«ƒGƒ‰[‚É‚È‚ç‚È‚¢‚æ‚¤‚É
 
 };
