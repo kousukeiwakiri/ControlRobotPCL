@@ -21,7 +21,9 @@ public:
 	CPointCloud(void);
 	~CPointCloud(void);
 	void Run(void);
-	void Save6D(int world_x,int world_y,double world_rad);
+	void Save6D(int world_x,int world_y,double world_rad); //pointcloud‚Ì•Û‘¶
+	void WritePCD(void);
+
 
 private:
 	xn::Context context;

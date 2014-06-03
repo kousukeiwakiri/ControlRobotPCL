@@ -44,23 +44,19 @@ void CPointCloud::Run()
 
 	
 	char key = cvWaitKey(10);
-	/*if( key == 's' )
-	{
-		Save6D(0,0,0);
-	}/*else if (key == 't')
-	{
-		//保存
-		pcl::io::savePCDFileASCII("./PCD/pcd.pcd",*cloud);
-	}*/
-	/*if(pcl_viewer_flag == true){
-		//ポイントクラウドを表示する
-		viewer->showCloud(cloud);
-	}*/
 	
 	return;
 }
 
-void CPointCloud::Save6D(int world_x,int world_y,double world_rad)
+void CPointCloud::WritePCD(void)
+{
+	std::cout<<"保存中…"<<std::endl;
+	pcl::io::savePCDFileASCII("./PCD/pcd.pcd",*cloud);
+	std::cout<<"保存完了"<<std::endl;
+}
+
+
+void CPointCloud::Save6D(int r_world_x,int r_world_y,double r_world_rad)
 {
 	//world_xはロボットの世界座標系での自己位置
 
@@ -79,14 +75,19 @@ void CPointCloud::Save6D(int world_x,int world_y,double world_rad)
 				double camera_x,camera_y,camera_z;
 				pcl::PointXYZRGB point;
 				//camera_xはロボットからの視点の距離
-				camera_x =  PIXEL_RANGE * depthMD(i,j) * (i-(double)(imageMD.XRes())/2) + world_x;
-				camera_y =  - PIXEL_RANGE * depthMD(i,j) * ((double)(imageMD.YRes())/2-j);
-				camera_z =  depthMD(i,j) + world_y;
+				camera_x =  PIXEL_RANGE * depthMD(i,j) * (i-(double)(imageMD.XRes())/2);
+				camera_y =  PIXEL_RANGE * depthMD(i,j) * ((double)(imageMD.YRes())/2-j);
+				camera_z =  depthMD(i,j);
 
-				//point.xは世界座標系
-				point.x = camera_x * cos(-world_rad) + camera_z * sin(-world_rad) ;
-				point.y = camera_y;
-				point.z = -camera_x * sin(-world_rad) + camera_z * cos(-world_rad) ;
+				//world.xは世界座標系
+				double world_x = camera_x * cos(r_world_rad) - camera_z * sin(r_world_rad) + r_world_x;
+				double world_y = camera_x * sin(r_world_rad) + camera_z * cos(-r_world_rad) + r_world_y;
+				double world_z =  camera_y;
+
+				//point.x
+				point.x = world_x;
+				point.y = world_z;
+				point.z = - world_y;
 
 				//テクスチャ
 				point.b = camera->imageData[camera->widthStep*j+i*camera->nChannels];

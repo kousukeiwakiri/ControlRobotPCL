@@ -5,9 +5,9 @@
 
 CGamePadData::CGamePadData(void)
 {
-		right = 0;
-		left = 0 ;
-		button = 0;
+	right = 0;
+	left = 0 ;
+	button = 0;
 }
 
 
@@ -62,6 +62,13 @@ void CGamePadData::Direction(void)
 	case 128:
 		button = 8;
 		break;
+	case 256:
+		button = 9;
+		break;
+	case 512:
+		button = 10;
+		break;
+
 	default:
 		button = 0;
 		break;

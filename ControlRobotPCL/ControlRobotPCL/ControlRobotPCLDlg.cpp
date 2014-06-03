@@ -189,6 +189,9 @@ void CControlRobotPCLDlg::RobotState(int state_id)
 		std::cout<<"right:" << gamePadData.right * 100 <<std::endl;
 		std::cout<<"left:" << gamePadData.left * 100 <<std::endl;
 		break;
+	case 1:
+		pointCloud.WritePCD();
+		break;
 	case 2:
 		robot.myRobot->move(100);
 		break;
@@ -196,13 +199,13 @@ void CControlRobotPCLDlg::RobotState(int state_id)
 		robot.myRobot->move(-100);
 		break;
 	case 4:
-		pointCloud.Save6D(robot.myRobot->getX(),robot.myRobot->getY(),robot.myRobot->getTh());
+		pointCloud.Save6D(-robot.myRobot->getY(),robot.myRobot->getX(),robot.myRobot->getTh() * 3.1415 / 180.0);
 		break;
 	case 5:
-		robot.myRobot->setDeltaHeading(90);
+		robot.myRobot->setDeltaHeading(45);
 		break;
 	case 6:
-		robot.myRobot->setDeltaHeading(-90);
+		robot.myRobot->setDeltaHeading(-45);
 		break;
 	case 7:
 		break;
@@ -211,6 +214,13 @@ void CControlRobotPCLDlg::RobotState(int state_id)
 	case 9:
 		break;
 	case 10:
+		if(robot.connect_flag == false)
+		{
+			robot.Init();
+		}else
+		{
+			robot.Close();
+		}
 		break;
 	default:
 		break;
