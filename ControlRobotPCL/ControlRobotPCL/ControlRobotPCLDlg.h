@@ -7,6 +7,7 @@
 #include "PointCloud.h"
 #include "GamePadData.h"
 #include "Robot.h"
+#include "DataBase.h"
 
 #define ROBOT_TIMER_ID 10
 #define ROBOT_TIMER_MS 100
@@ -47,6 +48,7 @@ protected:
 	CGamePadData gamePadData;
 
 	CRobot robot;
+	CDataBase dataBase;
 
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);

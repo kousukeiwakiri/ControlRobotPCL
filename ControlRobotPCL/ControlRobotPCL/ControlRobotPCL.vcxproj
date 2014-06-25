@@ -104,6 +104,7 @@
   <ItemGroup>
     <ClInclude Include="ControlRobotPCL.h" />
     <ClInclude Include="ControlRobotPCLDlg.h" />
+    <ClInclude Include="DataBase.h" />
     <ClInclude Include="GamePad.h" />
     <ClInclude Include="GamePadData.h" />
     <ClInclude Include="PointCloud.h" />
@@ -115,6 +116,7 @@
   <ItemGroup>
     <ClCompile Include="ControlRobotPCL.cpp" />
     <ClCompile Include="ControlRobotPCLDlg.cpp" />
+    <ClCompile Include="DataBase.cpp" />
     <ClCompile Include="GamePad.cpp" />
     <ClCompile Include="GamePadData.cpp" />
     <ClCompile Include="PointCloud.cpp" />

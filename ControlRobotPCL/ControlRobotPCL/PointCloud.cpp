@@ -50,9 +50,15 @@ void CPointCloud::Run()
 
 void CPointCloud::WritePCD(void)
 {
+<<<<<<< HEAD
+	std::cout<<"保存中………………………"<<std::endl;
+	pcl::io::savePCDFileASCII("./PCD/pcd.pcd",*cloud);
+	std::cout<<"保存完了!!!!!!!!!!!!!!!!!!!!!!!"<<std::endl;
+=======
 	std::cout<<"保存中…"<<std::endl;
 	pcl::io::savePCDFileASCII("./PCD/pcd.pcd",*cloud);
 	std::cout<<"保存完了"<<std::endl;
+>>>>>>> origin/master
 }
 
 

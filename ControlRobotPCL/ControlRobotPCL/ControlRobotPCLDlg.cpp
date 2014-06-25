@@ -181,13 +181,13 @@ void CControlRobotPCLDlg::OnTimer(UINT_PTR nIDEvent)
 //ロボットの状態
 void CControlRobotPCLDlg::RobotState(int state_id)
 {
-	std::cout<<"ボタン:"<<gamePadData.button<<std::endl;
+	//std::cout<<"ボタン:"<<gamePadData.button<<std::endl;
 	switch(state_id){
 	case 0:
 		//robot.myRobot->setVel(gamePadData.right * 100);
 		//robot.myRobot->setVel2(gamePadData.left * 100, -gamePadData.left * 100);
-		std::cout<<"right:" << gamePadData.right * 100 <<std::endl;
-		std::cout<<"left:" << gamePadData.left * 100 <<std::endl;
+		//std::cout<<"right:" << gamePadData.right * 100 <<std::endl;
+		//std::cout<<"left:" << gamePadData.left * 100 <<std::endl;
 		break;
 	case 1:
 		pointCloud.WritePCD();
@@ -210,6 +210,7 @@ void CControlRobotPCLDlg::RobotState(int state_id)
 	case 7:
 		break;
 	case 8:
+		dataBase.Insert();
 		break;
 	case 9:
 		break;
