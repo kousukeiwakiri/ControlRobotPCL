@@ -1,0 +1,2 @@
+AutomaticControlRobotPCLは移動しながら情報を取得
+ControlRobotPCLはコントローラで情報を取得
