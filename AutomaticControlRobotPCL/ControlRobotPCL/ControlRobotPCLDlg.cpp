@@ -19,13 +19,13 @@ class CAboutDlg : public CDialogEx
 public:
 	CAboutDlg();
 
-// ダイアログ データ
+	// ダイアログ データ
 	enum { IDD = IDD_ABOUTBOX };
 
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 
-// 実装
+	// 実装
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -66,6 +66,7 @@ BEGIN_MESSAGE_MAP(CControlRobotPCLDlg, CDialogEx)
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_BUTTON1, &CControlRobotPCLDlg::OnBnClickedButton1)
 	ON_BN_CLICKED(IDC_BUTTON2, &CControlRobotPCLDlg::OnBnClickedButton2)
+	ON_BN_CLICKED(IDC_BUTTON3, &CControlRobotPCLDlg::OnBnClickedButton3)
 END_MESSAGE_MAP()
 
 
@@ -103,8 +104,12 @@ BOOL CControlRobotPCLDlg::OnInitDialog()
 	// TODO: 初期化をここに追加します。
 	AfxBeginThread(ThreadProcStub,(LPVOID)this,THREAD_PRIORITY_IDLE);
 	SetTimer(ROBOT_TIMER_ID,ROBOT_TIMER_MS,NULL);
+	SetTimer(POINT_SAVE_ID,POINT_SAVE_MS,NULL);
 	AllocConsole();					//コンソールウィンドウ出力設定
 	freopen("con","w", stdout);
+	robot_param.X = 0.0;
+	robot_param.Y = 0.0;
+	robot_param.Th = 0.0;
 	return TRUE;  // フォーカスをコントロールに設定した場合を除き、TRUE を返します。
 }
 
@@ -161,13 +166,17 @@ HCURSOR CControlRobotPCLDlg::OnQueryDragIcon()
 //タイマー
 void CControlRobotPCLDlg::OnTimer(UINT_PTR nIDEvent)
 {
-		switch(nIDEvent)
+	switch(nIDEvent)
 	{
 	case ROBOT_TIMER_ID:
-		//コントローラの呼び出し
-		gamePadData.Update();
-		//ロボットの状態決定
-		RobotState(gamePadData.button);
+
+		break;
+	case POINT_SAVE_ID:
+		//描画，深度情報の更新
+		pointCloud.Run();
+		if(robot.connect_flag == true){
+			pointCloud.Save6D(robot_param.Y, robot_param.X , robot_param.Th * 3.1415 / 180.0);
+		}
 		break;
 	default:
 		break;
@@ -181,52 +190,52 @@ void CControlRobotPCLDlg::OnTimer(UINT_PTR nIDEvent)
 //ロボットの状態
 void CControlRobotPCLDlg::RobotState(int state_id)
 {
-	//std::cout<<"ボタン:"<<gamePadData.button<<std::endl;
+
+	std::cout<<"ボタン:"<<gamePadData.button;
+	std::cout<<" ,right:" << gamePadData.right;
+	std::cout<<" ,left:" << gamePadData.left <<std::endl;
 	switch(state_id){
 	case 0:
-		//robot.myRobot->setVel(gamePadData.right * 100);
-		//robot.myRobot->setVel2(gamePadData.left * 100, -gamePadData.left * 100);
-		//std::cout<<"right:" << gamePadData.right * 100 <<std::endl;
-		//std::cout<<"left:" << gamePadData.left * 100 <<std::endl;
 		break;
 	case 1:
-		pointCloud.WritePCD();
+		if(robot.connect_flag == false)
+		{
+			pointCloud.WritePCD();
+		}
 		break;
 	case 2:
-		robot.myRobot->move(100);
 		break;
 	case 3:
-		robot.myRobot->move(-100);
 		break;
 	case 4:
-		pointCloud.Save6D(-robot.myRobot->getY(),robot.myRobot->getX(),robot.myRobot->getTh() * 3.1415 / 180.0);
 		break;
 	case 5:
-		robot.myRobot->setDeltaHeading(45);
 		break;
 	case 6:
-		robot.myRobot->setDeltaHeading(-45);
 		break;
 	case 7:
 		break;
 	case 8:
-		dataBase.Insert();
+		//dataBase.Insert();
 		break;
 	case 9:
 		break;
 	case 10:
+
 		if(robot.connect_flag == false)
 		{
+			gamePadData.SetCenterNum();
 			robot.Init();
 		}else
 		{
 			robot.Close();
 		}
+
 		break;
 	default:
 		break;
 	}
-	
+
 
 }
 
@@ -242,8 +251,20 @@ UINT CControlRobotPCLDlg::ThreadProcStub(LPVOID pParam)
 
 UINT CControlRobotPCLDlg::TheadProc(){
 	while(1){
-		//移動中も描画するため
-		pointCloud.Run();
+		//コントローラの呼び出し
+		gamePadData.Update();
+		//ロボットの状態決定
+		//RobotState(gamePadData.button);
+		if(robot.connect_flag == true)
+		{
+			if(gamePadData.left > 0 && gamePadData.right > 0)robot.Move();
+			else if(gamePadData.left > 0 && gamePadData.right < 0) robot.RightRoll();
+			else if(gamePadData.left < 0 && gamePadData.right > 0) robot.LeftRoll();
+			else if(gamePadData.left < 0 && gamePadData.right < 0) robot.Back();
+			else robot.Stop();
+			robot_param = robot.GetRobotPatam(); //ロボットの現在位置の更新
+		}
+		Sleep(150);
 	}
 	return 0;
 }
@@ -252,11 +273,24 @@ UINT CControlRobotPCLDlg::TheadProc(){
 
 void CControlRobotPCLDlg::OnBnClickedButton1()
 {
+	gamePadData.SetCenterNum();
 	robot.Init();
+
 }
 
 
 void CControlRobotPCLDlg::OnBnClickedButton2()
 {
 	robot.Close();
+}
+
+
+void CControlRobotPCLDlg::OnBnClickedButton3()
+{
+	if(robot.connect_flag == false)
+		{
+			pointCloud.WritePCD();
+		}else{
+			cout<<"ロボットが動いています"<<endl;
+	}
 }

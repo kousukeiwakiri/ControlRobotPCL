@@ -11,6 +11,8 @@
 
 #define ROBOT_TIMER_ID 10
 #define ROBOT_TIMER_MS 100
+#define POINT_SAVE_ID 20
+#define POINT_SAVE_MS 2000
 
 
 // CControlRobotPCLDlg ダイアログ
@@ -50,8 +52,11 @@ protected:
 	CRobot robot;
 	CDataBase dataBase;
 
+	RobotParam robot_param;
+
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnBnClickedButton1();
 	afx_msg void OnBnClickedButton2();
+	afx_msg void OnBnClickedButton3();
 };

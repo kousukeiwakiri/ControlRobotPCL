@@ -14,6 +14,7 @@
 #define PIXEL_RANGE 0.001736 //1pixel•Ó‚è‚Ì‹——£
 #define IMAGE_WIDTH 640
 #define IMAGE_HEIGHT 480
+#define CAMERA_HIGHT 1100
 
 class CPointCloud
 {

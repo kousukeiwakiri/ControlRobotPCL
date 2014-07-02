@@ -11,6 +11,7 @@ CPointCloud::CPointCloud(void)
 	context.FindExistingNode(XN_NODE_TYPE_DEPTH, depthGenerator);	// Depthジェネレータ
 
 	//デプスの座標をイメージに合わせる
+
 	depthGenerator.GetAlternativeViewPointCap().SetViewPoint(imageGenerator);
 
 	//カメラサイズのイメージを作成(8ビットのRGB)
@@ -32,6 +33,7 @@ CPointCloud::~CPointCloud(void)
 
 void CPointCloud::Run()
 {
+	
 	//すべての更新を待ち、画像およびデプスデータを取得する
 	context.WaitAndUpdateAll();
 	//Metaデータの取得
@@ -42,7 +44,6 @@ void CPointCloud::Run()
 	cvCvtColor(camera,camera, CV_BGR2RGB);
 	cvShowImage("image",camera);
 
-	
 	char key = cvWaitKey(10);
 	
 	return;
@@ -50,20 +51,22 @@ void CPointCloud::Run()
 
 void CPointCloud::WritePCD(void)
 {
-<<<<<<< HEAD
+
 	std::cout<<"保存中………………………"<<std::endl;
 	pcl::io::savePCDFileASCII("./PCD/pcd.pcd",*cloud);
 	std::cout<<"保存完了!!!!!!!!!!!!!!!!!!!!!!!"<<std::endl;
-=======
+
 	std::cout<<"保存中…"<<std::endl;
 	pcl::io::savePCDFileASCII("./PCD/pcd.pcd",*cloud);
 	std::cout<<"保存完了"<<std::endl;
->>>>>>> origin/master
+
 }
 
 
 void CPointCloud::Save6D(int r_world_x,int r_world_y,double r_world_rad)
 {
+		
+
 	//world_xはロボットの世界座標系での自己位置
 
 	//PointCloud準備
@@ -76,7 +79,7 @@ void CPointCloud::Save6D(int r_world_x,int r_world_y,double r_world_rad)
 	{
 		for(int i=0; i<imageMD.XRes() ;i++)
 		{
-			if(depthMD(i,j)!=0)
+			if(depthMD(i,j)!=0 && 999<depthMD(i,j) && depthMD(i,j)<2000)
 			{
 				double camera_x,camera_y,camera_z;
 				pcl::PointXYZRGB point;
@@ -88,7 +91,7 @@ void CPointCloud::Save6D(int r_world_x,int r_world_y,double r_world_rad)
 				//world.xは世界座標系
 				double world_x = camera_x * cos(r_world_rad) - camera_z * sin(r_world_rad) + r_world_x;
 				double world_y = camera_x * sin(r_world_rad) + camera_z * cos(-r_world_rad) + r_world_y;
-				double world_z =  camera_y;
+				double world_z =  camera_y + CAMERA_HIGHT;
 
 				//point.x
 				point.x = world_x;
@@ -102,7 +105,9 @@ void CPointCloud::Save6D(int r_world_x,int r_world_y,double r_world_rad)
 		
 				points->push_back(point);
 			}
+			i++;
 		}
+		j++;//飛ばすレンジ
 	}
 	if(pcl_viewer_flag == false)
 	{

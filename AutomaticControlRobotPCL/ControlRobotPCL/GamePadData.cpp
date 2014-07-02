@@ -8,6 +8,7 @@ CGamePadData::CGamePadData(void)
 	right = 0;
 	left = 0 ;
 	button = 0;
+	center_num = CENTER_GAMEPAD_NUM;
 }
 
 
@@ -74,7 +75,12 @@ void CGamePadData::Direction(void)
 		break;
 	}
 
-	right=((double)(gamePad.R())-CENTER_GAMEPAD_NUM)/-CENTER_GAMEPAD_NUM;
-	left=((double)(gamePad.Y())-CENTER_GAMEPAD_NUM)/-CENTER_GAMEPAD_NUM;
+	right=((double)(gamePad.R())-center_num)*-1;
+	left=((double)(gamePad.Y())-center_num)*-1;
 
+}
+
+void CGamePadData::SetCenterNum(void)
+{
+	center_num = gamePad.R();
 }
